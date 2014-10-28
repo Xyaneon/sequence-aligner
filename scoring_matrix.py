@@ -77,3 +77,29 @@ class ScoringMatrix:
         '''Returns the current backlinks at the specified row and column in
         the form of a dictionary of Boolean values for each direction.'''
         self.matrix[row][column].get_backlinks()
+
+if __name__ == '__main__':
+    '''Unit test for this module.'''
+
+    def test_failed(test_number, fail_string):
+        print "Test {0!s} failed: {1}".format(test_number, fail_string)
+        exit(1)
+
+    # Test 1: ScoringMatrixCell initialization.
+    test_num = 1
+    test1 = ScoringMatrixCell()
+    score = test1.get_score()
+    if score != 0:
+        fail_message = "Default score is {0!s} instead of 0".format(score())
+        test_failed(test_num, fail_message)
+    backlinks = test1.get_backlinks()
+    if backlinks["up"]:
+        fail_message = "Up backlink shouldn't exist"
+        test_failed(test_num, fail_message)
+    if backlinks["diagonal"]:
+        fail_message = "Diagonal backlink shouldn't exist"
+        test_failed(test_num, fail_message)
+    if backlinks["left"]:
+        fail_message = "Left backlink shouldn't exist"
+        test_failed(test_num, fail_message)
+    print "Test {0!s} passed.".format(test_num)
