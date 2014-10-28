@@ -58,16 +58,36 @@ class ScoringMatrixCell:
 
 class ScoringMatrix:
     '''A class implementing a scoring matrix.'''
-    def __init__(self, sequence_length1, sequence_length2):
-        '''Initializes a new scoring matrix with the supplied sequence
-        lengths.'''
-        seql = (sequence_length1 + 1, sequence_length2 + 1)
-        self.matrix = [[ScoringMatrixCell() for x in range(seql[0])]
-                       for x in range(seql[1])]
+    def __init__(self, sequence1, sequence2):
+        '''Initializes a new scoring matrix with the supplied sequences.
+
+        sequence1 is the sequence displayed along the left side of the scoring
+        matrix, and sequence2 is displayed along the top.'''
+        seql = (len(sequence1) + 1, len(sequence2) + 1)
+        self.matrix = [[ScoringMatrixCell() for x in range(seql[1])]
+                       for x in range(seql[0])]
+        self.left_sequence = sequence1
+        self.top_sequence = sequence2
+
+    def get_rows(self):
+        '''Returns the number of rows in this scoring matrix.
+
+        This should be equal to the length of the left sequence, plus one.'''
+        return len(self.left_sequence) + 1
+
+    def get_columns(self):
+        '''Returns the number of columns in this scoring matrix.
+
+        This should be equal to the length of the top sequence, plus one.'''
+        return len(self.top_sequence) + 1
 
     def get_score(self, row, column):
         '''Gets the current score at the specified row and column.'''
-        return self.matrix[row][column].get_score()
+        try:
+            return self.matrix[row][column].get_score()
+        except IndexError:
+            print "IndexError in get_score({0!s}, {1!s})".format(row, column)
+            exit(1)
 
     def set_score(self, row, column, score):
         '''Sets the score at the specified row and column.'''
@@ -76,7 +96,11 @@ class ScoringMatrix:
     def get_backlinks(self, row, column):
         '''Returns the current backlinks at the specified row and column in
         the form of a dictionary of Boolean values for each direction.'''
-        self.matrix[row][column].get_backlinks()
+        try:
+            return self.matrix[row][column].get_backlinks()
+        except IndexError:
+            print "IndexError in get_backlinks({0!s}, {1!s})".format(row, column)
+            exit(1)
 
 if __name__ == '__main__':
     '''Unit test for this module.'''
@@ -137,4 +161,33 @@ if __name__ == '__main__':
     if not backlinks2["left"]:
         fail_message = "Left backlink should exist"
         test_failed(test_num, fail_message)
+    test_passed(test_num)
+
+    # Test 3: ScoringMatrix initialization.
+    test_num += 1
+    seq1 = "CGCA"
+    seq2 = "CACGTAT"
+    test3 = ScoringMatrix(seq1, seq2)
+    num_rows = test3.get_rows()
+    num_cols = test3.get_columns()
+    if num_rows != len(seq1) + 1:
+        fail_message = "Incorrect number of rows ({0!s} instead of {1!s})".format(num_rows, len(seq1) + 1)
+    if num_cols != len(seq2) + 1:
+        fail_message = "Incorrect number of columns ({0!s} instead of {1!s})".format(num_cols, len(seq2) + 1)
+    for row in range(num_rows):
+        for column in range(num_cols):
+            score3 = test3.get_score(row, column)
+            backlinks3 = test3.get_backlinks(row, column)
+            if score3 != 0:
+                fail_message = "Default score for row {0!s}, column {1!s} is {2!s} instead of 0".format(row, column, score3)
+                test_failed(test_num, fail_message)
+            if backlinks3["up"]:
+                fail_message = "Up backlink shouldn't exist for row {0!s}, column {1!s}".format(row, column)
+                test_failed(test_num, fail_message)
+            if backlinks3["diagonal"]:
+                fail_message = "Diagonal backlink shouldn't exist for row {0!s}, column {1!s}".format(row, column)
+                test_failed(test_num, fail_message)
+            if backlinks3["left"]:
+                fail_message = "Left backlink shouldn't exist for row {0!s}, column {1!s}".format(row, column)
+                test_failed(test_num, fail_message)
     test_passed(test_num)
