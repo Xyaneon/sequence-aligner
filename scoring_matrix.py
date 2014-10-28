@@ -85,21 +85,56 @@ if __name__ == '__main__':
         print "Test {0!s} failed: {1}".format(test_number, fail_string)
         exit(1)
 
+    def test_passed(test_number):
+        print "Test {0!s} passed.".format(test_number)
+
     # Test 1: ScoringMatrixCell initialization.
     test_num = 1
     test1 = ScoringMatrixCell()
-    score = test1.get_score()
-    if score != 0:
-        fail_message = "Default score is {0!s} instead of 0".format(score())
+    score1 = test1.get_score()
+    if score1 != 0:
+        fail_message = "Default score is {0!s} instead of 0".format(score1)
         test_failed(test_num, fail_message)
-    backlinks = test1.get_backlinks()
-    if backlinks["up"]:
+    backlinks1 = test1.get_backlinks()
+    if backlinks1["up"]:
         fail_message = "Up backlink shouldn't exist"
         test_failed(test_num, fail_message)
-    if backlinks["diagonal"]:
+    if backlinks1["diagonal"]:
         fail_message = "Diagonal backlink shouldn't exist"
         test_failed(test_num, fail_message)
-    if backlinks["left"]:
+    if backlinks1["left"]:
         fail_message = "Left backlink shouldn't exist"
         test_failed(test_num, fail_message)
-    print "Test {0!s} passed.".format(test_num)
+    test_passed(test_num)
+
+    # Test 2: Alternative ScoringMatrixCell initialization and deep copy check.
+    test_num += 1
+    test2 = ScoringMatrixCell(1, True, True, True)
+    score2 = test2.get_score()
+    backlinks2 = test2.get_backlinks()
+    if score1 != 0:
+        fail_message = "Default score is {0!s} instead of 0".format(score1)
+        test_failed(test_num, fail_message)
+    backlinks1 = test1.get_backlinks()
+    if backlinks1["up"]:
+        fail_message = "Up backlink shouldn't exist"
+        test_failed(test_num, fail_message)
+    if backlinks1["diagonal"]:
+        fail_message = "Diagonal backlink shouldn't exist"
+        test_failed(test_num, fail_message)
+    if backlinks1["left"]:
+        fail_message = "Left backlink shouldn't exist"
+        test_failed(test_num, fail_message)
+    if score2 != 1:
+        fail_message = "Set score is {0!s} instead of 1".format(score1)
+        test_failed(test_num, fail_message)
+    if not backlinks2["up"]:
+        fail_message = "Up backlink should exist"
+        test_failed(test_num, fail_message)
+    if not backlinks2["diagonal"]:
+        fail_message = "Diagonal backlink should exist"
+        test_failed(test_num, fail_message)
+    if not backlinks2["left"]:
+        fail_message = "Left backlink should exist"
+        test_failed(test_num, fail_message)
+    test_passed(test_num)
