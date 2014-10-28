@@ -191,3 +191,16 @@ if __name__ == '__main__':
                 fail_message = "Left backlink shouldn't exist for row {0!s}, column {1!s}".format(row, column)
                 test_failed(test_num, fail_message)
     test_passed(test_num)
+
+    # Test 4: Ensure deep copy of each cell in ScoringMatrix initialization.
+    test_num += 1
+    for row in range(num_rows):
+        for column in range(num_cols):
+            test3.set_score(row, column, row * column)
+    for row in range(num_rows):
+        for column in range(num_cols):
+            if test3.get_score(row, column) != row * column:
+                fail_message = "Deep copy test failed."
+                test_failed(test_num, fail_message)
+    test_passed(test_num)
+    print "All {0!s} test cases for scoring_matrix.py passed.".format(test_num)
