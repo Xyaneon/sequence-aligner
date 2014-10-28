@@ -24,4 +24,5 @@ class scoring_matrix:
     def __init__(self, sequence_length1, sequence_length2):
         '''Initializes a new scoring matrix with the supplied sequence
         lengths.'''
-        self.matrix = [[0 for x in range(sequence_length1)] for x in sequence_length2]
+        seql = (sequence_length1 + 1, sequnece_length2 + 1)
+        self.matrix = [[0 for x in range(seql[0])] for x in range(seql[1])]
