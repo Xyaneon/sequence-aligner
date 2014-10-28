@@ -19,7 +19,7 @@
 # Christopher Kyle Horton (000516274), chorton@ltu.edu
 # Last modified: 10/28/2014
 
-class scoring_matrix:
+class ScoringMatrix:
     '''A class implementing a scoring matrix.'''
     def __init__(self, sequence_length1, sequence_length2):
         '''Initializes a new scoring matrix with the supplied sequence
