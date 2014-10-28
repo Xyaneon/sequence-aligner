@@ -21,3 +21,5 @@
 
 import argparse
 import os.path
+
+from scoring_matrix import ScoringMatrix
