@@ -17,7 +17,7 @@
 
 # MCS 5603 Intro to Bioinformatics, Fall 2014
 # Christopher Kyle Horton (000516274), chorton@ltu.edu
-# Last modified: 10/28/2014
+# Last modified: 11/4/2014
 
 class ScoringMatrixCell:
     '''A class implementing individual cells within the scoring matrix.'''
@@ -68,6 +68,14 @@ class ScoringMatrix:
                        for x in range(seql[0])]
         self.left_sequence = sequence1
         self.top_sequence = sequence2
+    
+    def get_top_sequence(self):
+        '''Returns the sequence along the top edge of the matrix.'''
+        return self.top_sequence
+    
+    def get_left_sequence(self):
+        '''Returns the sequence along the left edge of the matrix.'''
+        return self.left_sequence
 
     def get_rows(self):
         '''Returns the number of rows in this scoring matrix.

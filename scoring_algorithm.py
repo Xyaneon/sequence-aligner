@@ -56,6 +56,7 @@ def fill_matrix(sm):
 
 if __name__ == "__main__":
     # Unit test
+    import terminal_output
     sm = ScoringMatrix("CGCA", "CACGTAT")
     sm.fill_matrix()
-    # TODO: Print out matrix.
+    terminal_output.print_matrix(sm)
