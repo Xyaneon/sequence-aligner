@@ -34,7 +34,7 @@ def initialize_edges(sm):
     sm.set_score(0, 0, 0)
     for i in range(1, sm.get_rows()):
         sm.set_score(i, 0, sm.get_score(i - 1, 0) + gap_score)
-    for j in range(1, sm.get_cols()):
+    for j in range(1, sm.get_columns()):
         sm.set_score(0, i, sm.get_score(0, i - 1) + gap_score)
 
 def fill_matrix(sm):
@@ -44,7 +44,7 @@ def fill_matrix(sm):
     Based on pseudocode provided on page 54 of our textbook.'''
     initialize_edges(sm)
     for i in range(1, sm.get_rows()):
-        for j in range(1, sm.get_cols()):
+        for j in range(1, sm.get_columns()):
             score1 = 0
             if sm.match(i, j):
                 score1 = sm.get_score(i - 1, j - 1) + match_score
@@ -58,5 +58,5 @@ if __name__ == "__main__":
     # Unit test
     import terminal_output
     sm = ScoringMatrix("CGCA", "CACGTAT")
-    sm.fill_matrix()
+    fill_matrix(sm)
     terminal_output.print_matrix(sm)

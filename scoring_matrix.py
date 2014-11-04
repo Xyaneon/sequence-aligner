@@ -117,7 +117,7 @@ class ScoringMatrix:
         Note that the row and column of the matrix must be supplied, not the
         character's indexes within their sequences directly.'''
         try:
-            return self.left_sequence[row - 1] == self.right_sequence[col - 1]
+            return self.left_sequence[row - 1] == self.top_sequence[col - 1]
         except IndexError:
             print "IndexError in match({0!s}, {1!s})".format(row, col)
             exit(1)

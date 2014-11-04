@@ -24,7 +24,7 @@ from scoring_matrix import ScoringMatrix
 def print_bottom_border(columns):
     '''Prints the bottom border of a table row.'''
     output_row = "-+"
-    for column in range(0, sm.get_columns()):
+    for column in range(0, columns):
         output_row += "--+"
     print output_row
 
@@ -54,7 +54,7 @@ def print_matrix(sm):
         for column in range(0, sm.get_columns()):
             bl = sm.get_backlinks(row, column)
             output_row += "<" if bl["left"] else " "
-            output_row += sm.get_score(row, column)
+            output_row += str(sm.get_score(row, column))
             output_row += "|"
         print output_row
         # Bottom border of row
