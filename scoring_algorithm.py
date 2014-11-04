@@ -17,7 +17,7 @@
 
 # MCS 5603 Intro to Bioinformatics, Fall 2014
 # Christopher Kyle Horton (000516274), chorton@ltu.edu
-# Last modified: 10/30/2014
+# Last modified: 11/4/2014
 
 from scoring_matrix import ScoringMatrix
 
@@ -53,3 +53,9 @@ def fill_matrix(sm):
             score2 = sm.get_score(i, j - 1) + gap_score
             score3 = sm.get_score(i - 1, j) + gap_score
             sm.set_score(i, j, max(score1, score2, score3))
+
+if __name__ == "__main__":
+    # Unit test
+    sm = ScoringMatrix("CGCA", "CACGTAT")
+    sm.fill_matrix()
+    # TODO: Print out matrix.
