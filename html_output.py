@@ -78,32 +78,32 @@ def cell_diag(row, col):
     return "arrow(dc,#{(col+1) * $cell},#{$cell * (row + 1)},45);"
 
 def draw_cell_grid(f, seq):
-    f.puts "dc.beginPath();"
+    f.write("dc.beginPath();")
     # Vertical cell lines:
     (1..seq[0].size+2).each do |i|
-      f.puts "dc.moveTo(#{i * $cell},#{$cell});"
-      f.puts "dc.lineTo(#{i * $cell},#{$ymax});"
+      f.write("dc.moveTo(#{i * $cell},#{$cell});")
+      f.write("dc.lineTo(#{i * $cell},#{$ymax});")
     end
     # Horizontal cell lines:
     (1..seq[1].size+2).each do |i|
-      f.puts "dc.moveTo(#{$cell},#{i * $cell});"
-      f.puts "dc.lineTo(#{$cell * (seq[0].size+2)},#{i * $cell});"
+      f.write("dc.moveTo(#{$cell},#{i * $cell});")
+      f.write("dc.lineTo(#{$cell * (seq[0].size+2)},#{i * $cell});")
     end
-    f.puts "dc.stroke();"
+    f.write("dc.stroke();")
     # Sequences:
     seq[0].each_with_index do |e,i|
-      f.puts "dc.fillText('#{e}',#{$cell/2 + (2+i) * $cell},#{$cell * 2/3});"
+      f.write("dc.fillText('#{e}',#{$cell/2 + (2+i) * $cell},#{$cell * 2/3});")
     end
     seq[1].each_with_index do |e,i|
-      f.puts "dc.fillText('#{e}',#{$cell/2},#{$cell * 2/3 + (i+2) * $cell});"
+      f.write("dc.fillText('#{e}',#{$cell/2},#{$cell * 2/3 + (i+2) * $cell});")
     end
 
 def cell_fill(f, row, col, score, backlink):
     links = backlink[row][col].split("")
-    f.puts cell_score(display,row,col,score[row][col])
-    f.puts cell_left(display,row,col) if links.include?('l')
-    f.puts cell_top(display,row,col) if links.include?('t')
-    f.puts cell_diag(display,row,col) if links.include?('d')
+    f.write(cell_score(display,row,col,score[row][col]))
+    f.write(cell_left(display,row,col) if links.include?('l'))
+    f.write(cell_top(display,row,col) if links.include?('t'))
+    f.write(cell_diag(display,row,col) if links.include?('d'))
 
 # Main function:
 def draw_grid(seq, score, backlink):
