@@ -112,10 +112,10 @@ def draw_grid(seq, score, backlink):
     title = seq[0].join + "-" + seq[1].join
     $xmax = $cell * (seq[0].size+2)
     $ymax = $cell * (seq[1].size+2)
-    File.open(title + Suffix[display],"w") do |f|
-        f.puts Header[display] % title
-        draw_cell_grid(display,f,seq)
-        (0..seq[1].size).each do |row|
-            (0..seq[0].size).each{|col| cell_fill(display,f,row,col,score,backlink)}
-        end
-        f.puts Footer[display] % [$xmax + $cell,$ymax + $cell]
+    with open(title + Suffix[display], "w") as f:
+        f.write(HEADER % title)
+        draw_cell_grid(f, seq)
+        for row in range(0, seq[1].length):
+            for col in range(0, seq[0].length):
+                cell_fill(f, row, col, score, backlink)
+        f.write(FOOTER % [$xmax + $cell,$ymax + $cell])
