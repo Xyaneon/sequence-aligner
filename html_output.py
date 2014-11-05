@@ -39,11 +39,11 @@ HEADER = '''
       dc.save();
       dc.translate(x,y);
       dc.rotate(-Math.PI * 2 * degrees / 360.0);
-      dc.moveTo(0,#{Cell[:html5]/6});
-      dc.lineTo(0,-#{Cell[:html5]/6});
-      dc.lineTo(-#{Cell[:html5]/10},-#{Cell[:html5]/6} + #{Cell[:html5]/10});
-      dc.moveTo(0,-#{Cell[:html5]/6});
-      dc.lineTo(#{Cell[:html5]/10},-#{Cell[:html5]/6} + #{Cell[:html5]/10});
+      dc.moveTo(0,#{CELL/6});
+      dc.lineTo(0,-#{CELL/6});
+      dc.lineTo(-#{CELL/10},-#{CELL/6} + #{CELL/10});
+      dc.moveTo(0,-#{CELL/6});
+      dc.lineTo(#{CELL/10},-#{CELL/6} + #{CELL/10});
       dc.stroke();
       dc.restore();
     }
@@ -63,39 +63,41 @@ FOOTER = '''
 </html>
 '''
 
+CELL = 40
+
 # Functions
 
 def cell_score(row, col, score):
-    return "dc.fillText('#{score}'," + "#{$cell/2 + (col+1) * $cell},#{$cell*2/3 + $cell * (row + 1)});\n"
+    return "dc.fillText('#{score}'," + "#{$CELL/2 + (col+1) * $CELL},#{$CELL*2/3 + $CELL * (row + 1)});\n"
 
 def cell_left(row, col):
-    return "arrow(dc,#{(col+1) * $cell},#{$cell/3 + $cell * (row + 1)},90);"
+    return "arrow(dc,#{(col+1) * $CELL},#{$CELL/3 + $CELL * (row + 1)},90);"
 
 def cell_top(row, col):
-    return "arrow(dc,#{$cell/3 + (col+1) * $cell},#{$cell * (row + 1)},0);"
+    return "arrow(dc,#{$CELL/3 + (col+1) * $CELL},#{$CELL * (row + 1)},0);"
 
 def cell_diag(row, col):
-    return "arrow(dc,#{(col+1) * $cell},#{$cell * (row + 1)},45);"
+    return "arrow(dc,#{(col+1) * $CELL},#{$CELL * (row + 1)},45);"
 
 def draw_cell_grid(f, seq):
     f.write("dc.beginPath();")
     # Vertical cell lines:
     (1..seq[0].size+2).each do |i|
-      f.write("dc.moveTo(#{i * $cell},#{$cell});")
-      f.write("dc.lineTo(#{i * $cell},#{$ymax});")
+      f.write("dc.moveTo(#{i * $CELL},#{$CELL});")
+      f.write("dc.lineTo(#{i * $CELL},#{$ymax});")
     end
     # Horizontal cell lines:
     (1..seq[1].size+2).each do |i|
-      f.write("dc.moveTo(#{$cell},#{i * $cell});")
-      f.write("dc.lineTo(#{$cell * (seq[0].size+2)},#{i * $cell});")
+      f.write("dc.moveTo(#{$CELL},#{i * $CELL});")
+      f.write("dc.lineTo(#{$CELL * (seq[0].size+2)},#{i * $CELL});")
     end
     f.write("dc.stroke();")
     # Sequences:
     seq[0].each_with_index do |e,i|
-      f.write("dc.fillText('#{e}',#{$cell/2 + (2+i) * $cell},#{$cell * 2/3});")
+      f.write("dc.fillText('#{e}',#{$CELL/2 + (2+i) * $CELL},#{$CELL * 2/3});")
     end
     seq[1].each_with_index do |e,i|
-      f.write("dc.fillText('#{e}',#{$cell/2},#{$cell * 2/3 + (i+2) * $cell});")
+      f.write("dc.fillText('#{e}',#{$CELL/2},#{$CELL * 2/3 + (i+2) * $CELL});")
     end
 
 def cell_fill(f, row, col, score, backlink):
@@ -107,7 +109,6 @@ def cell_fill(f, row, col, score, backlink):
 
 # Main function:
 def draw_grid(seq, score, backlink):
-    cell = 40
     seq = seq.map{|s| s[1..-1]}
     title = seq[0].join + "-" + seq[1].join
     $xmax = cell * (seq[0].size+2)
@@ -118,4 +119,4 @@ def draw_grid(seq, score, backlink):
         for row in range(0, seq[1].length):
             for col in range(0, seq[0].length):
                 cell_fill(f, row, col, score, backlink)
-        f.write(FOOTER % [$xmax + cell, $ymax + cell])
+        f.write(FOOTER % [$xmax + CELL, $ymax + CELL])
