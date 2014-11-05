@@ -105,9 +105,6 @@ def cell_fill(f, row, col, score, backlink):
     f.puts cell_top(display,row,col) if links.include?('t')
     f.puts cell_diag(display,row,col) if links.include?('d')
 
-def build(title):
-    print "No build needed."
-
 # Main function:
 def draw_grid(seq, score, backlink):
     $cell = Cell[display]
