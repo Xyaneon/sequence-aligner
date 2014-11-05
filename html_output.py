@@ -107,15 +107,15 @@ def cell_fill(f, row, col, score, backlink):
 
 # Main function:
 def draw_grid(seq, score, backlink):
-    $cell = Cell[display]
+    cell = 40
     seq = seq.map{|s| s[1..-1]}
     title = seq[0].join + "-" + seq[1].join
-    $xmax = $cell * (seq[0].size+2)
-    $ymax = $cell * (seq[1].size+2)
+    $xmax = cell * (seq[0].size+2)
+    $ymax = cell * (seq[1].size+2)
     with open(title + Suffix[display], "w") as f:
         f.write(HEADER % title)
         draw_cell_grid(f, seq)
         for row in range(0, seq[1].length):
             for col in range(0, seq[0].length):
                 cell_fill(f, row, col, score, backlink)
-        f.write(FOOTER % [$xmax + $cell,$ymax + $cell])
+        f.write(FOOTER % [$xmax + cell, $ymax + cell])
