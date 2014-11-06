@@ -76,10 +76,15 @@ if os.path.exists(path2):
 else:
     sequence2 = path2
 
+# Ensure sequence1 is always the longer one.
+if len(sequence1) > len(sequence2):
+    sequence1, sequence2 = sequence2, sequence1
+
 sm = ScoringMatrix(sequence1, sequence2)
-fill_matrix(sm)
+alignments = get_alignments(sm)
 print_matrix(sm)
-html_file = draw_grid(sm)
-if raw_input("Would you like to open the HTML output in your browser (y/n)? ").lower() == 'y':
+html_file = write_html(sm)
+print "Output written to", html_file
+if raw_input("Open HTML output in your web browser (y/n)? ").lower() == 'y':
     webbrowser.get().open(html_file)
 exit(0)
