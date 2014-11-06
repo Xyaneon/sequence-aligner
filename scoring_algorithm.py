@@ -82,16 +82,16 @@ def get_alignments(sm):
         if True in backlinks: # If some back-link exists.
             backlink_used[row][col] = true # Mark linked cells as used as we go.
             if backlinks["diagonal"]:
-                todo_list.push([row - 1,col - 1,
-                               seq[0][col] + str0,seq[1][row] + str1])
+                todo_list.append([row - 1, col - 1, seq[0][col] + str0,
+                                 seq[1][row] + str1])
             if backlinks["up"]:
-                todo_list.push([row - 1,col,
-                               '_' + str0,seq[1][row] + str1])
+                todo_list.append([row - 1, col, '_' + str0,
+                                 seq[1][row] + str1])
             if backlinks["left"]:
-                todo_list.push([row,col - 1,
-                               seq[0][col] + str0,'_' + str1])
+                todo_list.append([row, col - 1, seq[0][col] + str0,
+                                 '_' + str1])
         else:
-            done_list.push([str0,str1])
+            done_list.append([str0,str1])
     return done_list
 
 if __name__ == "__main__":
