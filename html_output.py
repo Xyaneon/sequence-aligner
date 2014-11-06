@@ -104,10 +104,10 @@ def draw_cell_grid(f, seq):
 
 def cell_fill(f, row, col, score, backlink):
     links = backlink[row][col].split("")
-    f.write(cell_score(display,row,col,score[row][col]))
-    f.write(cell_left(display,row,col) if links.include?('l'))
-    f.write(cell_top(display,row,col) if links.include?('t'))
-    f.write(cell_diag(display,row,col) if links.include?('d'))
+    f.write(cell_score(row, col, score[row][col]))
+    f.write(cell_left(row, col) if links.include?('l'))
+    f.write(cell_top(row, col) if links.include?('t'))
+    f.write(cell_diag(row, col) if links.include?('d'))
 
 # Main function:
 def draw_grid(seq, score, backlink):
