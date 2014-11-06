@@ -88,13 +88,13 @@ def cell_diag(row, col):
 def draw_cell_grid(f, seq):
     f.write("dc.beginPath();")
     # Vertical cell lines:
-    for i in range(1, seq[0].size + 2):
+    for i in range(1, len(seq[0]) + 2):
         f.write("dc.moveTo({0!s},{1!s});".format(i * CELL, CELL))
         f.write("dc.lineTo({0!s},{1!s});".format(i * CELL, ymax))
     # Horizontal cell lines:
-    for i in range(1, seq[1].size + 2):
+    for i in range(1, len(seq[1]) + 2):
         f.write("dc.moveTo({0!s},{1!s});".format(CELL, i * CELL))
-        f.write("dc.lineTo({0!s},{1!s});".format(CELL * (seq[0].size+2), i * CELL))
+        f.write("dc.lineTo({0!s},{1!s});".format(CELL * (len(seq[0]) + 2), i * CELL))
     f.write("dc.stroke();")
     # Sequences:
     for i in range(0, seq[0].length):
@@ -118,14 +118,14 @@ def cell_fill(f, row, col, sm):
 def draw_grid(sm):
     #seq = seq.map{|s| s[1..-1]}
     seq = [sm.get_top_sequence(), sm.get_left_sequence()]
-    title = "-".join(seq[0], seq[1])
-    xmax = cell * (seq[0].size+2)
-    ymax = cell * (seq[1].size+2)
+    title = "-".join((seq[0], seq[1]))
+    xmax = CELL * (len(seq[0]) + 2)
+    ymax = CELL * (len(seq[1]) + 2)
     with open(title + ".html", "w") as f:
         f.write(HEADER.format(title, CELL/6, CELL/10))
         draw_cell_grid(f, seq)
-        for row in range(0, seq[1].length):
-            for col in range(0, seq[0].length):
+        for row in range(0, len(seq[1])):
+            for col in range(0, len(seq[0])):
                 cell_fill(f, row, col, sm)
         f.write(FOOTER.format(xmax + CELL, ymax + CELL))
 
