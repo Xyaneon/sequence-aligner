@@ -17,7 +17,7 @@
 
 # MCS 5603 Intro to Bioinformatics, Fall 2014
 # Christopher Kyle Horton (000516274), chorton@ltu.edu
-# Last modified: 11/4/2014
+# Last modified: 11/6/2014
 
 from scoring_matrix import ScoringMatrix
 

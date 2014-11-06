@@ -115,7 +115,6 @@ def cell_fill(f, row, col, sm):
 
 # Main function:
 def draw_grid(sm):
-    #seq = seq.map{|s| s[1..-1]}
     seq = [sm.get_top_sequence(), sm.get_left_sequence()]
     title = "-".join((seq[0], seq[1]))
     xmax = CELL * (len(seq[0]) + 2)
