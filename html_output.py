@@ -104,19 +104,20 @@ def draw_cell_grid(f, seq):
         arg = (seq[1][i], CELL/2, CELL * 2/3 + (i+2) * CELL)
         f.write("dc.fillText('{0}',{1!s},{2!s});".format(arg[0], arg[1], arg[2]))
 
-def cell_fill(f, row, col, score, backlink):
-    links = backlink[row][col].split("")
-    f.write(cell_score(row, col, score[row][col]))
-    if 'l' in links:
+def cell_fill(f, row, col, sm):
+    links = sm.get_backlinks()
+    f.write(cell_score(row, col, sm.get_score(row, col)))
+    if links["left"]:
         f.write(cell_left(row, col))
-    if 't' in links:
+    if links["top"]:
         f.write(cell_top(row, col))
-    if 'd' in links:
+    if links["diagonal"]:
         f.write(cell_diag(row, col))
 
 # Main function:
-def draw_grid(seq, score, backlink):
+def draw_grid(sm):
     #seq = seq.map{|s| s[1..-1]}
+    seq = [sm.get_top_sequence(), sm.get_left_sequence()]
     title = "-".join(seq[0], seq[1])
     xmax = cell * (seq[0].size+2)
     ymax = cell * (seq[1].size+2)
@@ -125,7 +126,7 @@ def draw_grid(seq, score, backlink):
         draw_cell_grid(f, seq)
         for row in range(0, seq[1].length):
             for col in range(0, seq[0].length):
-                cell_fill(f, row, col, score, backlink)
+                cell_fill(f, row, col, sm)
         f.write(FOOTER.format(xmax + CELL, ymax + CELL))
 
 if __name__ == "__main__":
