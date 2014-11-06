@@ -34,8 +34,10 @@ def initialize_edges(sm):
     sm.set_score(0, 0, 0)
     for i in range(1, sm.get_rows()):
         sm.set_score(i, 0, sm.get_score(i - 1, 0) + gap_score)
+        sm.add_up_backlink(i, 0)
     for i in range(1, sm.get_columns()):
         sm.set_score(0, i, sm.get_score(0, i - 1) + gap_score)
+        sm.add_left_backlink(0, i)
 
 def fill_matrix(sm):
     '''Uses dynamic programming to fill out a provided ScoringMatrix after
