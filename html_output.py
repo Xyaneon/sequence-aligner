@@ -32,18 +32,18 @@ HEADER = '''
 <head>
   <!-- saved from url=(0014)about:internet -->
   <meta charset="utf-8">
-  <title>%s</title>
+  <title>{0}</title>
   <script>
     function arrow(dc,x,y,degrees) {
       dc.beginPath();
       dc.save();
       dc.translate(x,y);
       dc.rotate(-Math.PI * 2 * degrees / 360.0);
-      dc.moveTo(0,#{CELL/6});
-      dc.lineTo(0,-#{CELL/6});
-      dc.lineTo(-#{CELL/10},-#{CELL/6} + #{CELL/10});
-      dc.moveTo(0,-#{CELL/6});
-      dc.lineTo(#{CELL/10},-#{CELL/6} + #{CELL/10});
+      dc.moveTo(0,{1!s});
+      dc.lineTo(0,-{1!s});
+      dc.lineTo(-{2!s},-{1!s} + {2!s});
+      dc.moveTo(0,-{1!s});
+      dc.lineTo({2!s},-{1!s} + {2!s});
       dc.stroke();
       dc.restore();
     }
@@ -58,12 +58,14 @@ FOOTER = '''
   </script>
 </head>
 <body>
-  <canvas id="drawingCanvas" width="%d" height="%d"></canvas>
+  <canvas id="drawingCanvas" width="{0!s}" height="{1!s}"></canvas>
 </body>
 </html>
 '''
 
 CELL = 40
+
+xmax = ymax = 0
 
 # Functions
 
@@ -113,12 +115,12 @@ def cell_fill(f, row, col, score, backlink):
 def draw_grid(seq, score, backlink):
     seq = seq.map{|s| s[1..-1]}
     title = "-".join(seq[0], seq[1])
-    $xmax = cell * (seq[0].size+2)
-    $ymax = cell * (seq[1].size+2)
+    xmax = cell * (seq[0].size+2)
+    ymax = cell * (seq[1].size+2)
     with open(title + Suffix[display], "w") as f:
-        f.write(HEADER % title)
+        f.write(HEADER.format(title, CELL/6, CELL/10))
         draw_cell_grid(f, seq)
         for row in range(0, seq[1].length):
             for col in range(0, seq[0].length):
                 cell_fill(f, row, col, score, backlink)
-        f.write(FOOTER % [$xmax + CELL, $ymax + CELL])
+        f.write(FOOTER.format(xmax + CELL, ymax + CELL))
