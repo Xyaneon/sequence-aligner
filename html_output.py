@@ -17,7 +17,7 @@
 
 # MCS 5603 Intro to Bioinformatics, Fall 2014
 # Christopher Kyle Horton (000516274), chorton@ltu.edu
-# Last modified: 11/5/2014
+# Last modified: 11/6/2014
 
 from scoring_matrix import ScoringMatrix
 
@@ -116,7 +116,7 @@ def cell_fill(f, row, col, score, backlink):
 
 # Main function:
 def draw_grid(seq, score, backlink):
-    seq = seq.map{|s| s[1..-1]}
+    #seq = seq.map{|s| s[1..-1]}
     title = "-".join(seq[0], seq[1])
     xmax = cell * (seq[0].size+2)
     ymax = cell * (seq[1].size+2)
