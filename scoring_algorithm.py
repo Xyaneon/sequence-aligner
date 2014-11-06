@@ -100,3 +100,4 @@ if __name__ == "__main__":
     sm = ScoringMatrix("CGCA", "CACGTAT")
     fill_matrix(sm)
     terminal_output.print_matrix(sm)
+    terminal_output.print_alignments(get_alignments(sm))
