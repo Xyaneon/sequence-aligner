@@ -68,16 +68,20 @@ CELL = 40
 # Functions
 
 def cell_score(row, col, score):
-    return "dc.fillText('#{score}'," + "#{$CELL/2 + (col+1) * $CELL},#{$CELL*2/3 + $CELL * (row + 1)});\n"
+    arg = (score, CELL/2 + (col+1) * CELL, CELL*2/3 + CELL * (row + 1))
+    return "dc.fillText('{0!s}',{1!s},{2!s});\n".format(arg[0], arg[1], arg[2])
 
 def cell_left(row, col):
-    return "arrow(dc,#{(col+1) * $CELL},#{$CELL/3 + $CELL * (row + 1)},90);"
+    arg = ((col+1) * CELL, CELL/3 + CELL * (row + 1))
+    return "arrow(dc,{0!s},{1!s},90);".format(arg[0], arg[1])
 
 def cell_top(row, col):
-    return "arrow(dc,#{$CELL/3 + (col+1) * $CELL},#{$CELL * (row + 1)},0);"
+    arg = (CELL/3 + (col+1) * CELL}, CELL * (row + 1))
+    return "arrow(dc,{0!s},{1!s},0);".format(arg[0], arg[1])
 
 def cell_diag(row, col):
-    return "arrow(dc,#{(col+1) * $CELL},#{$CELL * (row + 1)},45);"
+    arg = ((col+1) * CELL}, CELL * (row + 1))
+    return "arrow(dc,{0!s},{1!s},45);".format(arg[0], arg[1])
 
 def draw_cell_grid(f, seq):
     f.write("dc.beginPath();")
@@ -110,7 +114,7 @@ def cell_fill(f, row, col, score, backlink):
 # Main function:
 def draw_grid(seq, score, backlink):
     seq = seq.map{|s| s[1..-1]}
-    title = seq[0].join + "-" + seq[1].join
+    title = "-".join(seq[0], seq[1])
     $xmax = cell * (seq[0].size+2)
     $ymax = cell * (seq[1].size+2)
     with open(title + Suffix[display], "w") as f:
