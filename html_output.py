@@ -78,11 +78,11 @@ def cell_left(row, col):
     return "arrow(dc,{0!s},{1!s},90);".format(arg[0], arg[1])
 
 def cell_top(row, col):
-    arg = (CELL/3 + (col+1) * CELL}, CELL * (row + 1))
+    arg = (CELL/3 + (col+1) * CELL, CELL * (row + 1))
     return "arrow(dc,{0!s},{1!s},0);".format(arg[0], arg[1])
 
 def cell_diag(row, col):
-    arg = ((col+1) * CELL}, CELL * (row + 1))
+    arg = ((col+1) * CELL, CELL * (row + 1))
     return "arrow(dc,{0!s},{1!s},45);".format(arg[0], arg[1])
 
 def draw_cell_grid(f, seq):
