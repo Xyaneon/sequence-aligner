@@ -71,22 +71,26 @@ def get_alignments(sm):
     Port of code from global-grid2.rb.'''
     fill_matrix(sm)
     # Find the optimal alignment paths starting from the lower right corner.
+    seq = (sm.get_top_sequence(), sm.get_left_sequence())
+    last_col = len(seq[0])
+    last_row = len(seq[1])
     todo_list = [[last_row,last_col,"",""]] # Entry (row,col,string0,string1)
     done_list = [] # Entry (str0,str1)
-    while !todo_list.empty?
-        row,col,str0,str1 = todo_list.pop
-        if !backlink[row][col].empty? # If some back-link exists.
+    while todo_list:
+        row, col, str0, str1 = todo_list.pop
+        backlinks = sm.get_backlinks(row, col)
+        if True in backlinks: # If some back-link exists.
             backlink_used[row][col] = true # Mark linked cells as used as we go.
-            todo_list.push([row - 1,col - 1,
-                           seq[0][col] + str0,seq[1][row] + str1]
-                          ) if backlink[row][col].split("").include?('d')
-            todo_list.push([row - 1,col,
-                           '_' + str0,seq[1][row] + str1]
-                          ) if backlink[row][col].split("").include?('t')
-            todo_list.push([row,col - 1,
-                           seq[0][col] + str0,'_' + str1]
-                          ) if backlink[row][col].split("").include?('l')
-        else
+            if backlinks["diagonal"]:
+                todo_list.push([row - 1,col - 1,
+                               seq[0][col] + str0,seq[1][row] + str1])
+            if backlinks["up"]:
+                todo_list.push([row - 1,col,
+                               '_' + str0,seq[1][row] + str1])
+            if backlinks["left"]:
+                todo_list.push([row,col - 1,
+                               seq[0][col] + str0,'_' + str1])
+        else:
             done_list.push([str0,str1])
     return done_list
 
