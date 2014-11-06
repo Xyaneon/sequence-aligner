@@ -56,6 +56,12 @@ class ScoringMatrixCell:
         '''Adds a left backlink to this cell.'''
         self.left = True
 
+    def remove_backlinks(self):
+        '''Removes all backlinks from this cell.'''
+        self.up = False
+        self.diagonal = False
+        self.left = False
+
 class ScoringMatrix:
     '''A class implementing a scoring matrix.'''
     def __init__(self, sequence1, sequence2):
@@ -68,11 +74,11 @@ class ScoringMatrix:
                        for x in range(seql[0])]
         self.left_sequence = sequence1
         self.top_sequence = sequence2
-    
+
     def get_top_sequence(self):
         '''Returns the sequence along the top edge of the matrix.'''
         return self.top_sequence
-    
+
     def get_left_sequence(self):
         '''Returns the sequence along the left edge of the matrix.'''
         return self.left_sequence
@@ -113,7 +119,7 @@ class ScoringMatrix:
         except IndexError:
             print "IndexError in get_backlinks({0!s}, {1!s})".format(row, column)
             exit(1)
-    
+
     def add_up_backlink(self, row, column):
         '''Adds an up backlink at the specified row and column.'''
         try:
@@ -121,7 +127,7 @@ class ScoringMatrix:
         except IndexError:
             print "IndexError in add_up_backlink({0!s}, {1!s})".format(row, column)
             exit(1)
-    
+
     def add_diagonal_backlink(self, row, column):
         '''Adds a diagonal backlink at the specified row and column.'''
         try:
@@ -129,13 +135,21 @@ class ScoringMatrix:
         except IndexError:
             print "IndexError in add_diagonal_backlink({0!s}, {1!s})".format(row, column)
             exit(1)
-    
+
     def add_left_backlink(self, row, column):
         '''Adds a left backlink at the specified row and column.'''
         try:
             self.matrix[row][column].add_left_backlink()
         except IndexError:
             print "IndexError in add_left_backlink({0!s}, {1!s})".format(row, column)
+            exit(1)
+
+    def remove_backlinks(self, row, column):
+        '''Removes all backlinks at the specified row and column.'''
+        try:
+            self.matrix[row][column].remove_backlinks()
+        except IndexError:
+            print "IndexError in remove_backlinks({0!s}, {1!s})".format(row, column)
             exit(1)
 
     def match(self, row, col):
