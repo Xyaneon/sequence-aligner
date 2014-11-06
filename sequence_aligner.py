@@ -72,7 +72,7 @@ if os.path.exists(path1):
         print "Error: could not open first file:", path1
         exit(1)
 else:
-    sequence1 = path1
+    sequence1 = path1.upper()
 if os.path.exists(path2):
     try:
         with open(path2, 'r') as infile2_reading:
@@ -83,7 +83,7 @@ if os.path.exists(path2):
         print "Error: could not open second file:", path2
         exit(1)
 else:
-    sequence2 = path2
+    sequence2 = path2.upper()
 
 # Ensure sequence1 is always the longer one.
 if len(sequence1) > len(sequence2):
