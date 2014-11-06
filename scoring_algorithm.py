@@ -72,15 +72,18 @@ def get_alignments(sm):
     fill_matrix(sm)
     # Find the optimal alignment paths starting from the lower right corner.
     seq = (sm.get_top_sequence(), sm.get_left_sequence())
-    last_col = len(seq[0])
-    last_row = len(seq[1])
+    print seq
+    last_col = len(seq[0]) - 1
+    last_row = len(seq[1]) - 1
     todo_list = [[last_row,last_col,"",""]] # Entry (row,col,string0,string1)
     done_list = [] # Entry (str0,str1)
     while todo_list:
         row, col, str0, str1 = todo_list.pop()
+        print (row, col, str0, str1)
         backlinks = sm.get_backlinks(row, col)
-        if True in backlinks: # If some back-link exists.
-            backlink_used[row][col] = true # Mark linked cells as used as we go.
+        print backlinks
+        if True in backlinks.values(): # If some back-link exists.
+            #backlink_used[row][col] = true # Mark linked cells as used as we go.
             if backlinks["diagonal"]:
                 todo_list.append([row - 1, col - 1, seq[0][col] + str0,
                                  seq[1][row] + str1])
@@ -91,6 +94,7 @@ def get_alignments(sm):
                 todo_list.append([row, col - 1, seq[0][col] + str0,
                                  '_' + str1])
         else:
+            print "No backlinks found in ({}, {})".format(row, col)
             done_list.append([str0,str1])
     return done_list
 
