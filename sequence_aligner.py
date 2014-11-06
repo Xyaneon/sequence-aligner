@@ -29,7 +29,7 @@ from scoring_algorithm import get_alignments
 from terminal_output import print_matrix, print_alignments
 from html_output import write_html
 
-version = "v0.0.1"
+version = "v0.0.2"
 desc = "sequence-aligner " + version
 desc += "\nFinds semi-global alignments between FASTA sequences."
 infile_help="""
@@ -50,6 +50,8 @@ parser.add_argument("sequence1", help=infile_help)
 parser.add_argument("sequence2", help=infile_help)
 parser.add_argument("-g", "--global-align", action="store_true",
                     help="Perform a global alignment instead.")
+parser.add_argument("-v", "--view-html", action="store_true",
+                    help="Automatically view HTML5 output in browser.")
 args = parser.parse_args()
 if args.global_align:
     alignment_is_global = True
@@ -93,6 +95,8 @@ print_matrix(sm)
 print_alignments(deepcopy(alignments))
 html_file = write_html(sm, alignments, alignment_is_global)
 print "Output written to", html_file
-if raw_input("Open HTML output in your web browser (y/n)? ").lower() == 'y':
+if args.view_html:
+    webbrowser.get().open(html_file)
+elif raw_input("Open HTML output in your web browser (y/n)? ").lower() == 'y':
     webbrowser.get().open(html_file)
 exit(0)
