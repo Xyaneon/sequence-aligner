@@ -83,6 +83,7 @@ if len(sequence1) > len(sequence2):
 sm = ScoringMatrix(sequence1, sequence2)
 alignments = get_alignments(sm)
 print_matrix(sm)
+print_alignments(alignments)
 html_file = write_html(sm)
 print "Output written to", html_file
 if raw_input("Open HTML output in your web browser (y/n)? ").lower() == 'y':
