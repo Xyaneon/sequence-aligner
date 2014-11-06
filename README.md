@@ -11,5 +11,7 @@ The `-h` option will show help. The `-g` option will perform a global alignment 
 
 This program will output both its dynamic programming table (with unused backlinks cleaned up) and possible alignments found, both in the terminal and in an HTML5 file which might be nicer to look at. The program will even ask you if you want to view the latter in your browser after it finishes, if you haven't already told it to do so via the `-v` option.
 
+The generated HTML5 file will also show a button you can use to print the page when you view it in a browser. Handy!
+
 ## License ##
 GNU GPLv3

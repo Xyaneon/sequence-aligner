@@ -29,7 +29,7 @@ from scoring_algorithm import get_alignments
 from terminal_output import print_matrix, print_alignments
 from html_output import write_html
 
-version = "v0.0.3"
+version = "v0.0.4"
 desc = "sequence-aligner " + version
 desc += "\nFinds semi-global alignments between FASTA sequences."
 infile_help="""
