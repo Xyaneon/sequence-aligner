@@ -77,7 +77,7 @@ def get_alignments(sm):
     todo_list = [[last_row,last_col,"",""]] # Entry (row,col,string0,string1)
     done_list = [] # Entry (str0,str1)
     while todo_list:
-        row, col, str0, str1 = todo_list.pop
+        row, col, str0, str1 = todo_list.pop()
         backlinks = sm.get_backlinks(row, col)
         if True in backlinks: # If some back-link exists.
             backlink_used[row][col] = true # Mark linked cells as used as we go.

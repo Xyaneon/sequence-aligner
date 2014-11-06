@@ -59,3 +59,14 @@ def print_matrix(sm):
         print output_row
         # Bottom border of row
         print_bottom_border(sm.get_columns())
+
+def print_alignments(alignment_list):
+    '''Prints all the alignments in the list.
+    
+    The output of scoriing_algorithm.get_alignments should be fed into this.'''
+    i = 1
+    while alignment_list:
+        seq = alignment_list.pop()
+        print "Alignment #", str(i)
+        for s in seq:
+            print s
