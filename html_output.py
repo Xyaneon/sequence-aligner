@@ -127,3 +127,11 @@ def draw_grid(seq, score, backlink):
             for col in range(0, seq[0].length):
                 cell_fill(f, row, col, score, backlink)
         f.write(FOOTER.format(xmax + CELL, ymax + CELL))
+
+if __name__ == "__main__":
+    # Unit testing
+    from scoring_matrix import ScoringMatrix
+    from scoring_algorithm import fill_matrix
+    sm = ScoringMatrix("CGCA", "CACGTAT")
+    fill_matrix(sm)
+    draw_grid(sm)
