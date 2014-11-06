@@ -74,34 +74,34 @@ def cell_score(row, col, score):
 
 def cell_left(row, col):
     arg = ((col+1) * CELL, CELL/3 + CELL * (row + 1))
-    return "arrow(dc,{0!s},{1!s},90);".format(arg[0], arg[1])
+    return "arrow(dc,{0!s},{1!s},90);\n".format(arg[0], arg[1])
 
 def cell_top(row, col):
     arg = (CELL/3 + (col+1) * CELL, CELL * (row + 1))
-    return "arrow(dc,{0!s},{1!s},0);".format(arg[0], arg[1])
+    return "arrow(dc,{0!s},{1!s},0);\n".format(arg[0], arg[1])
 
 def cell_diag(row, col):
     arg = ((col+1) * CELL, CELL * (row + 1))
-    return "arrow(dc,{0!s},{1!s},45);".format(arg[0], arg[1])
+    return "arrow(dc,{0!s},{1!s},45);\n".format(arg[0], arg[1])
 
 def draw_cell_grid(f, seq):
-    f.write("dc.beginPath();")
+    f.write("dc.beginPath();\n")
     # Vertical cell lines:
-    for i in range(1, len(seq[0]) + 2):
-        f.write("dc.moveTo({0!s},{1!s});".format(i * CELL, CELL))
-        f.write("dc.lineTo({0!s},{1!s});".format(i * CELL, ymax))
+    for i in range(1, len(seq[0]) + 3):
+        f.write("dc.moveTo({0!s},{1!s});\n".format(i * CELL, CELL))
+        f.write("dc.lineTo({0!s},{1!s});\n".format(i * CELL, CELL * (len(seq[1]) + 2)))
     # Horizontal cell lines:
-    for i in range(1, len(seq[1]) + 2):
-        f.write("dc.moveTo({0!s},{1!s});".format(CELL, i * CELL))
-        f.write("dc.lineTo({0!s},{1!s});".format(CELL * (len(seq[0]) + 2), i * CELL))
-    f.write("dc.stroke();")
+    for i in range(1, len(seq[1]) + 3):
+        f.write("dc.moveTo({0!s},{1!s});\n".format(CELL, i * CELL))
+        f.write("dc.lineTo({0!s},{1!s});\n".format(CELL * (len(seq[0]) + 2), i * CELL))
+    f.write("dc.stroke();\n")
     # Sequences:
     for i in range(0, len(seq[0])):
         arg = (seq[0][i], CELL/2 + (2+i) * CELL, CELL * 2/3)
-        f.write("dc.fillText('{0}',{1!s},{2!s});".format(arg[0], arg[1], arg[2]))
+        f.write("dc.fillText('{0}',{1!s},{2!s});\n".format(arg[0], arg[1], arg[2]))
     for i in range(0, len(seq[1])):
         arg = (seq[1][i], CELL/2, CELL * 2/3 + (i+2) * CELL)
-        f.write("dc.fillText('{0}',{1!s},{2!s});".format(arg[0], arg[1], arg[2]))
+        f.write("dc.fillText('{0}',{1!s},{2!s});\n".format(arg[0], arg[1], arg[2]))
 
 def cell_fill(f, row, col, sm):
     links = sm.get_backlinks(row, col)
@@ -120,17 +120,19 @@ def draw_grid(sm):
     title = "-".join((seq[0], seq[1]))
     xmax = CELL * (len(seq[0]) + 2)
     ymax = CELL * (len(seq[1]) + 2)
-    with open(title + ".html", "w") as f:
+    filename = title + ".html"
+    with open(filename, "w") as f:
         f.write(HEADER.format(title, CELL/6, CELL/10))
         draw_cell_grid(f, seq)
-        for row in range(0, len(seq[1])):
-            for col in range(0, len(seq[0])):
+        for row in range(0, len(seq[1]) + 1):
+            for col in range(0, len(seq[0]) + 1):
                 cell_fill(f, row, col, sm)
         f.write(FOOTER.format(xmax + CELL, ymax + CELL))
+    return filename
 
 if __name__ == "__main__":
     # Unit testing
     from scoring_algorithm import fill_matrix
     sm = ScoringMatrix("CGCA", "CACGTAT")
     fill_matrix(sm)
-    draw_grid(sm)
+    html_file = draw_grid(sm)
