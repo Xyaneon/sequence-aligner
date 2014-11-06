@@ -130,7 +130,6 @@ def draw_grid(seq, score, backlink):
 
 if __name__ == "__main__":
     # Unit testing
-    from scoring_matrix import ScoringMatrix
     from scoring_algorithm import fill_matrix
     sm = ScoringMatrix("CGCA", "CACGTAT")
     fill_matrix(sm)
