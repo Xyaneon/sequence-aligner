@@ -94,7 +94,7 @@ def get_alignments(sm):
                 todo_list.append([row, col - 1, seq[0][col] + str0,
                                  '_' + str1])
         else:
-            print "No backlinks found in ({}, {})".format(row, col)
+            print "No backlinks found in ({}, {})\n".format(row, col)
             done_list.append([str0,str1])
     return done_list
 

@@ -52,13 +52,14 @@ HEADER = '''<!DOCTYPE html>
     dc.font = '10pt Helvetica';
     dc.textAlign = 'center';
 '''
-FOOTER = '''
-}};
+BODYTOP = '''};
   </script>
 </head>
 <body>
-  <canvas id="drawingCanvas" width="{0!s}" height="{1!s}"></canvas>
-</body>
+  <h1>Dynamic programming table</h1>
+'''
+CANVAS = '  <canvas id="drawingCanvas" width="{0!s}" height="{1!s}"></canvas>'
+BODYBOTTOM = '''</body>
 </html>
 '''
 
@@ -113,25 +114,45 @@ def cell_fill(f, row, col, sm):
     if links["diagonal"]:
         f.write(cell_diag(row, col))
 
-# Main function:
-def draw_grid(sm):
+def draw_grid(f, sm):
     seq = [sm.get_top_sequence(), sm.get_left_sequence()]
     title = "-".join((seq[0], seq[1]))
     xmax = CELL * (len(seq[0]) + 2)
     ymax = CELL * (len(seq[1]) + 2)
+    draw_cell_grid(f, seq)
+    for row in range(0, len(seq[1]) + 1):
+        for col in range(0, len(seq[0]) + 1):
+            cell_fill(f, row, col, sm)
+    return (xmax, ymax)
+
+def write_alignments(f, alignments):
+    '''Writes the alignmentsfound to the HTML output.'''
+    i = 1
+    while alignments:
+        seq = alignments.pop()
+        f.write("  <h1>Alignment #{}</h1>\n".format(i))
+        for s in seq:
+            f.write("  <code>{}</code><br />\n".format(s))
+        i += 1
+
+# Main function:
+def write_html(sm, alignments):
+    '''Puts together the HTML file for the table and alignments.'''
+    seq = [sm.get_top_sequence(), sm.get_left_sequence()]
+    title = "-".join((seq[0], seq[1]))
     filename = title + ".html"
     with open(filename, "w") as f:
         f.write(HEADER.format(title, CELL/6, CELL/10))
-        draw_cell_grid(f, seq)
-        for row in range(0, len(seq[1]) + 1):
-            for col in range(0, len(seq[0]) + 1):
-                cell_fill(f, row, col, sm)
-        f.write(FOOTER.format(xmax + CELL, ymax + CELL))
+        xmax, ymax = draw_grid(f, sm)
+        f.write(BODYTOP)
+        f.write(CANVAS.format(xmax + CELL, ymax + CELL))
+        write_alignments(f, alignments)
+        f.write(BODYBOTTOM)
     return filename
 
 if __name__ == "__main__":
     # Unit testing
-    from scoring_algorithm import fill_matrix
+    from scoring_algorithm import fill_matrix, get_alignments
     sm = ScoringMatrix("CGCA", "CACGTAT")
-    fill_matrix(sm)
-    html_file = draw_grid(sm)
+    alignments = get_alignments(sm)
+    html_file = write_html(sm, alignments)
