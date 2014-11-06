@@ -52,11 +52,12 @@ HEADER = '''<!DOCTYPE html>
     dc.font = '10pt Helvetica';
     dc.textAlign = 'center';
 '''
-BODYTOP = '''};
+BODYTOP = '''}};
   </script>
 </head>
 <body>
-  <h1>Dynamic programming table</h1>
+  <h1>{} Alignment</h1>
+  <h2>Dynamic programming table</h2>
 '''
 CANVAS = '  <canvas id="drawingCanvas" width="{0!s}" height="{1!s}"></canvas>'
 BODYBOTTOM = '''</body>
@@ -130,21 +131,22 @@ def write_alignments(f, alignments):
     i = 1
     while alignments:
         seq = alignments.pop()
-        f.write("  <h1>Alignment #{}</h1>\n".format(i))
+        f.write("  <h2>Alignment #{}</h2>\n".format(i))
         for s in seq:
             f.write("  <code>{}</code><br />\n".format(s))
         i += 1
 
 # Main function:
-def write_html(sm, alignments):
+def write_html(sm, alignments, alignment_is_global=False):
     '''Puts together the HTML file for the table and alignments.'''
     seq = [sm.get_top_sequence(), sm.get_left_sequence()]
-    title = "-".join((seq[0], seq[1]))
+    align_type = "Global" if alignment_is_global else "Semi-Global"
+    title = "-".join((seq[0], seq[1], align_type.lower()))
     filename = title + ".html"
     with open(filename, "w") as f:
         f.write(HEADER.format(title, CELL/6, CELL/10))
         xmax, ymax = draw_grid(f, sm)
-        f.write(BODYTOP)
+        f.write(BODYTOP.format(align_type))
         f.write(CANVAS.format(xmax + CELL, ymax + CELL))
         write_alignments(f, alignments)
         f.write(BODYBOTTOM)

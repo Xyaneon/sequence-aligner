@@ -24,27 +24,32 @@ from scoring_matrix import ScoringMatrix
 match_score = 1
 gap_score = -1
 mismatch_score = 0
-terminal_gap_score = -1
+terminal_gap_score = 0
 
-def initialize_edges(sm):
+def initialize_edges(sm, alignment_is_global=False):
     '''Sets up the top and left edges of the provided ScoringMatrix. This is
     the first step in the dynamic programming algorithm.
 
+    Performs a semi-global alignment by default unless alignment_is_global is
+    specified to be True.
     Based on pseudocode provided on page 54 of our textbook.'''
     sm.set_score(0, 0, 0)
+    gap = gap_score if alignment_is_global else terminal_gap_score
     for i in range(1, sm.get_rows()):
-        sm.set_score(i, 0, sm.get_score(i - 1, 0) + gap_score)
+        sm.set_score(i, 0, sm.get_score(i - 1, 0) + gap)
         sm.add_up_backlink(i, 0)
     for i in range(1, sm.get_columns()):
-        sm.set_score(0, i, sm.get_score(0, i - 1) + gap_score)
+        sm.set_score(0, i, sm.get_score(0, i - 1) + gap)
         sm.add_left_backlink(0, i)
 
-def fill_matrix(sm):
+def fill_matrix(sm, alignment_is_global=False):
     '''Uses dynamic programming to fill out a provided ScoringMatrix after
     the edges have been initialized.
 
+    Performs a semi-global alignment by default unless alignment_is_global is
+    specified to be True.
     Based on pseudocode provided on page 54 of our textbook.'''
-    initialize_edges(sm)
+    initialize_edges(sm, alignment_is_global)
     for i in range(1, sm.get_rows()):
         for j in range(1, sm.get_columns()):
             # Calculate scores
@@ -53,8 +58,14 @@ def fill_matrix(sm):
                 score_diagonal = sm.get_score(i - 1, j - 1) + match_score
             else:
                 score_diagonal = sm.get_score(i - 1, j - 1) + mismatch_score
-            score_left = sm.get_score(i, j - 1) + gap_score
-            score_up = sm.get_score(i - 1, j) + gap_score
+            if (i == 0 or i == sm.get_rows() - 1) and not alignment_is_global:
+                score_left = sm.get_score(i, j - 1) + terminal_gap_score
+            else:
+                score_left = sm.get_score(i, j - 1) + gap_score
+            if (j == 0 or j == sm.get_columns() - 1) and not alignment_is_global:
+                score_up = sm.get_score(i - 1, j) + terminal_gap_score
+            else:
+                score_up = sm.get_score(i - 1, j) + gap_score
             max_score = max(score_diagonal, score_left, score_up)
             sm.set_score(i, j, max_score)
             # Establish backlink(s)
@@ -65,11 +76,13 @@ def fill_matrix(sm):
             if max_score == score_up:
                 sm.add_up_backlink(i, j)
 
-def get_alignments(sm):
+def get_alignments(sm, alignment_is_global=False):
     '''Returns a list of the alignments generated from the scoring matrix.
 
+    Performs a semi-global alignment by default unless alignment_is_global is
+    specified to be True.
     Port of code from global-grid2.rb.'''
-    fill_matrix(sm)
+    fill_matrix(sm, alignment_is_global)
     # Find the optimal alignment paths starting from the lower right corner.
     seq = (sm.get_top_sequence(), sm.get_left_sequence())
     print seq

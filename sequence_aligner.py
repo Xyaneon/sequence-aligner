@@ -29,7 +29,7 @@ from scoring_algorithm import get_alignments
 from terminal_output import print_matrix, print_alignments
 from html_output import write_html
 
-version = "v0.0.0"
+version = "v0.0.1"
 desc = "sequence-aligner " + version
 desc += "\nFinds semi-global alignments between FASTA sequences."
 infile_help="""
@@ -48,7 +48,13 @@ parser = argparse.ArgumentParser(
             )
 parser.add_argument("sequence1", help=infile_help)
 parser.add_argument("sequence2", help=infile_help)
+parser.add_argument("-g", "--global-align", action="store_true",
+                    help="Perform a global alignment instead.")
 args = parser.parse_args()
+if args.global_align:
+    alignment_is_global = True
+else:
+    alignment_is_global = False
 
 # Read in sequences from FASTA files, if they exist
 # Ignore first line since that's just header info, not part of the sequence
@@ -82,10 +88,10 @@ if len(sequence1) > len(sequence2):
     sequence1, sequence2 = sequence2, sequence1
 
 sm = ScoringMatrix(sequence1, sequence2)
-alignments = get_alignments(sm)
+alignments = get_alignments(sm, alignment_is_global)
 print_matrix(sm)
 print_alignments(deepcopy(alignments))
-html_file = write_html(sm, alignments)
+html_file = write_html(sm, alignments, alignment_is_global)
 print "Output written to", html_file
 if raw_input("Open HTML output in your web browser (y/n)? ").lower() == 'y':
     webbrowser.get().open(html_file)

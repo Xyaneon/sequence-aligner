@@ -17,7 +17,7 @@
 
 # MCS 5603 Intro to Bioinformatics, Fall 2014
 # Christopher Kyle Horton (000516274), chorton@ltu.edu
-# Last modified: 11/4/2014
+# Last modified: 11/6/2014
 
 from scoring_matrix import ScoringMatrix
 
@@ -63,7 +63,7 @@ def print_matrix(sm):
 
 def print_alignments(alignment_list):
     '''Prints all the alignments in the list.
-    
+
     The output of scoriing_algorithm.get_alignments should be fed into this.'''
     i = 1
     while alignment_list:
