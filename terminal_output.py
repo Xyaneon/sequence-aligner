@@ -31,7 +31,7 @@ def print_bottom_border(columns):
 def print_matrix(sm):
     '''Prints the given ScoringMatrix to the terminal.'''
     # Sequence on top
-    output_row = " |"
+    output_row = " |  |"
     top_sequence = sm.get_top_sequence()
     left_sequence = sm.get_left_sequence()
     for c in top_sequence:
