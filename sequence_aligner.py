@@ -17,12 +17,16 @@
 
 # MCS 5603 Intro to Bioinformatics, Fall 2014
 # Christopher Kyle Horton (000516274), chorton@ltu.edu
-# Last modified: 11/4/2014
+# Last modified: 11/6/2014
 
 import argparse
 import os.path
+import webbrowser
 
 from scoring_matrix import ScoringMatrix
+from scoring_algorithm import fill_matrix
+from terminal_output import print_matrix
+from html_output import draw_grid
 
 version = "v0.0.0"
 desc = "sequence-aligner " + version
@@ -73,5 +77,9 @@ else:
     sequence2 = path2
 
 sm = ScoringMatrix(sequence1, sequence2)
-
-# TODO: Finish rest of main program
+fill_matrix(sm)
+print_matrix(sm)
+html_file = draw_grid(sm)
+if raw_input("Would you like to open the HTML output in your browser (y/n)? ").lower() == 'y':
+    webbrowser.get().open(html_file)
+exit(0)
