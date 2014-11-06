@@ -26,15 +26,14 @@ from scoring_matrix import ScoringMatrix
 # This is basically a port of Ruby code written by Professor Miller, with some
 # modifications. For example, this implementation only supports HTML5 output.
 
-HEADER = '''
-<!DOCTYPE html>
+HEADER = '''<!DOCTYPE html>
 <html lang="en">
 <head>
   <!-- saved from url=(0014)about:internet -->
   <meta charset="utf-8">
   <title>{0}</title>
   <script>
-    function arrow(dc,x,y,degrees) {
+    function arrow(dc,x,y,degrees) {{
       dc.beginPath();
       dc.save();
       dc.translate(x,y);
@@ -46,15 +45,15 @@ HEADER = '''
       dc.lineTo({2!s},-{1!s} + {2!s});
       dc.stroke();
       dc.restore();
-    }
-    window.onload = function() {
+    }}
+    window.onload = function() {{
     var canvas = document.getElementById("drawingCanvas");
     var dc = canvas.getContext("2d");
     dc.font = '10pt Helvetica';
     dc.textAlign = 'center';
 '''
 FOOTER = '''
-};
+}};
   </script>
 </head>
 <body>
@@ -97,19 +96,19 @@ def draw_cell_grid(f, seq):
         f.write("dc.lineTo({0!s},{1!s});".format(CELL * (len(seq[0]) + 2), i * CELL))
     f.write("dc.stroke();")
     # Sequences:
-    for i in range(0, seq[0].length):
+    for i in range(0, len(seq[0])):
         arg = (seq[0][i], CELL/2 + (2+i) * CELL, CELL * 2/3)
         f.write("dc.fillText('{0}',{1!s},{2!s});".format(arg[0], arg[1], arg[2]))
-    for i in range(0, seq[1].length):
+    for i in range(0, len(seq[1])):
         arg = (seq[1][i], CELL/2, CELL * 2/3 + (i+2) * CELL)
         f.write("dc.fillText('{0}',{1!s},{2!s});".format(arg[0], arg[1], arg[2]))
 
 def cell_fill(f, row, col, sm):
-    links = sm.get_backlinks()
+    links = sm.get_backlinks(row, col)
     f.write(cell_score(row, col, sm.get_score(row, col)))
     if links["left"]:
         f.write(cell_left(row, col))
-    if links["top"]:
+    if links["up"]:
         f.write(cell_top(row, col))
     if links["diagonal"]:
         f.write(cell_diag(row, col))
