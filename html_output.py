@@ -153,7 +153,8 @@ def write_html(sm, alignments, alignment_is_global=False):
     '''Puts together the HTML file for the table and alignments.'''
     seq = [sm.get_top_sequence(), sm.get_left_sequence()]
     align_type = "Global" if alignment_is_global else "Semi-Global"
-    title = "-".join((seq[0], seq[1], align_type.lower()))
+    #title = "-".join((seq[0], seq[1], align_type.lower()))
+    title= "output"
     filename = title + ".html"
     with open(filename, "w") as f:
         f.write(HEADER.format(title, CELL/6, CELL/10))
