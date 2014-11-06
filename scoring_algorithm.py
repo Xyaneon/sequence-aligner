@@ -85,8 +85,8 @@ def get_alignments(sm, alignment_is_global=False):
     fill_matrix(sm, alignment_is_global)
     # Find the optimal alignment paths starting from the lower right corner.
     seq = (sm.get_top_sequence(), sm.get_left_sequence())
-    last_col = len(seq[0]) - 1
-    last_row = len(seq[1]) - 1
+    last_col = len(seq[0])
+    last_row = len(seq[1])
     todo_list = [[last_row,last_col,"",""]] # Entry (row,col,string0,string1)
     done_list = [] # Entry (str0,str1)
     backlink_used = [[False for x in range(len(seq[0]) + 1)]
@@ -97,19 +97,19 @@ def get_alignments(sm, alignment_is_global=False):
         if True in backlinks.values(): # If some back-link exists.
             backlink_used[row][col] = True # Mark linked cells as used as we go.
             if backlinks["diagonal"]:
-                todo_list.append([row - 1, col - 1, seq[0][col] + str0,
-                                 seq[1][row] + str1])
+                todo_list.append([row - 1, col - 1, seq[0][col - 1] + str0,
+                                 seq[1][row - 1] + str1])
             if backlinks["up"]:
                 todo_list.append([row - 1, col, '_' + str0,
-                                 seq[1][row] + str1])
+                                 seq[1][row - 1] + str1])
             if backlinks["left"]:
-                todo_list.append([row, col - 1, seq[0][col] + str0,
+                todo_list.append([row, col - 1, seq[0][col - 1] + str0,
                                  '_' + str1])
         else:
             done_list.append([str0,str1])
     # Clean up unused backlinks
-    for row in range(len(seq[1])):
-        for col in range(len(seq[0])):
+    for row in range(len(seq[1]) + 1):
+        for col in range(len(seq[0]) + 1):
             if not backlink_used[row][col]:
                 sm.remove_backlinks(row, col)
     return done_list
