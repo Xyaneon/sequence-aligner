@@ -45,14 +45,23 @@ def fill_matrix(sm):
     initialize_edges(sm)
     for i in range(1, sm.get_rows()):
         for j in range(1, sm.get_columns()):
-            score1 = 0
+            # Calculate scores
+            score_diagonal = 0
             if sm.match(i, j):
-                score1 = sm.get_score(i - 1, j - 1) + match_score
+                score_diagonal = sm.get_score(i - 1, j - 1) + match_score
             else:
-                score1 = sm.get_score(i - 1, j - 1) + mismatch_score
-            score2 = sm.get_score(i, j - 1) + gap_score
-            score3 = sm.get_score(i - 1, j) + gap_score
-            sm.set_score(i, j, max(score1, score2, score3))
+                score_diagonal = sm.get_score(i - 1, j - 1) + mismatch_score
+            score_left = sm.get_score(i, j - 1) + gap_score
+            score_up = sm.get_score(i - 1, j) + gap_score
+            max_score = max(score_diagonal, score_left, score_up)
+            sm.set_score(i, j, max_score)
+            # Establish backlink(s)
+            if max_score == score_diagonal:
+                sm.add_diagonal_backlink(i, j)
+            if max_score == score_left:
+                sm.add_left_backlink(i, j)
+            if max_score == score_up:
+                sm.add_up_backlink(i, j)
 
 if __name__ == "__main__":
     # Unit test

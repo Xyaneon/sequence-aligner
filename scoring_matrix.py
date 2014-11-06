@@ -99,7 +99,11 @@ class ScoringMatrix:
 
     def set_score(self, row, column, score):
         '''Sets the score at the specified row and column.'''
-        self.matrix[row][column].set_score(score)
+        try:
+            self.matrix[row][column].set_score(score)
+        except IndexError:
+            print "IndexError in set_score({0!s}, {1!s})".format(row, column)
+            exit(1)
 
     def get_backlinks(self, row, column):
         '''Returns the current backlinks at the specified row and column in
@@ -108,6 +112,30 @@ class ScoringMatrix:
             return self.matrix[row][column].get_backlinks()
         except IndexError:
             print "IndexError in get_backlinks({0!s}, {1!s})".format(row, column)
+            exit(1)
+    
+    def add_up_backlink(self, row, column):
+        '''Adds an up backlink at the specified row and column.'''
+        try:
+            self.matrix[row][column].add_up_backlink()
+        except IndexError:
+            print "IndexError in add_up_backlink({0!s}, {1!s})".format(row, column)
+            exit(1)
+    
+    def add_diagonal_backlink(self, row, column):
+        '''Adds a diagonal backlink at the specified row and column.'''
+        try:
+            self.matrix[row][column].add_diagonal_backlink()
+        except IndexError:
+            print "IndexError in add_diagonal_backlink({0!s}, {1!s})".format(row, column)
+            exit(1)
+    
+    def add_left_backlink(self, row, column):
+        '''Adds a left backlink at the specified row and column.'''
+        try:
+            self.matrix[row][column].add_left_backlink()
+        except IndexError:
+            print "IndexError in add_left_backlink({0!s}, {1!s})".format(row, column)
             exit(1)
 
     def match(self, row, col):
