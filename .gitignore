@@ -55,3 +55,6 @@ target/
 
 # Ignore HTML output files
 *.html
+
+# Ignore test files
+test/
