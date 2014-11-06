@@ -25,18 +25,18 @@ def print_bottom_border(columns):
     '''Prints the bottom border of a table row.'''
     output_row = "-+"
     for column in range(0, columns):
-        output_row += "--+"
+        output_row += "----+"
     print output_row
 
 def print_matrix(sm):
     '''Prints the given ScoringMatrix to the terminal.'''
     # Sequence on top
     print "Dynamic programming table:"
-    output_row = " |  |"
+    output_row = " |    |"
     top_sequence = sm.get_top_sequence()
     left_sequence = sm.get_left_sequence()
     for c in top_sequence:
-        output_row += " " + c + "|"
+        output_row += "   " + c + "|"
     print output_row
     print_bottom_border(sm.get_columns())
     # All other rows
@@ -45,8 +45,8 @@ def print_matrix(sm):
         output_row = " |"
         for column in range(0, sm.get_columns()):
             bl = sm.get_backlinks(row, column)
-            output_row += "\\" if bl["diagonal"] else " "
-            output_row += "^" if bl["up"] else " "
+            output_row += "\\ " if bl["diagonal"] else "  "
+            output_row += "^ " if bl["up"] else "  "
             output_row += "|"
         print output_row
         # Bottom half of row
@@ -55,7 +55,7 @@ def print_matrix(sm):
         for column in range(0, sm.get_columns()):
             bl = sm.get_backlinks(row, column)
             output_row += "<" if bl["left"] else " "
-            output_row += str(sm.get_score(row, column))
+            output_row += "{0: >3}".format(sm.get_score(row, column))
             output_row += "|"
         print output_row
         # Bottom border of row
