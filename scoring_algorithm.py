@@ -65,6 +65,31 @@ def fill_matrix(sm):
             if max_score == score_up:
                 sm.add_up_backlink(i, j)
 
+def get_alignments(sm):
+    '''Returns a list of the alignments generated from the scoring matrix.
+    
+    Port of code from global-grid2.rb.'''
+    fill_matrix(sm)
+    # Find the optimal alignment paths starting from the lower right corner.
+    todo_list = [[last_row,last_col,"",""]] # Entry (row,col,string0,string1)
+    done_list = [] # Entry (str0,str1)
+    while !todo_list.empty?
+        row,col,str0,str1 = todo_list.pop
+        if !backlink[row][col].empty? # If some back-link exists.
+            backlink_used[row][col] = true # Mark linked cells as used as we go.
+            todo_list.push([row - 1,col - 1,
+                           seq[0][col] + str0,seq[1][row] + str1]
+                          ) if backlink[row][col].split("").include?('d')
+            todo_list.push([row - 1,col,
+                           '_' + str0,seq[1][row] + str1]
+                          ) if backlink[row][col].split("").include?('t')
+            todo_list.push([row,col - 1,
+                           seq[0][col] + str0,'_' + str1]
+                          ) if backlink[row][col].split("").include?('l')
+        else
+            done_list.push([str0,str1])
+    return done_list
+
 if __name__ == "__main__":
     # Unit test
     import terminal_output
