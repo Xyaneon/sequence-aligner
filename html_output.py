@@ -29,35 +29,47 @@ from scoring_matrix import ScoringMatrix
 HEADER = '''<!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- saved from url=(0014)about:internet -->
-  <meta charset="utf-8">
-  <title>{0}</title>
-  <script>
-    function arrow(dc,x,y,degrees) {{
-      dc.beginPath();
-      dc.save();
-      dc.translate(x,y);
-      dc.rotate(-Math.PI * 2 * degrees / 360.0);
-      dc.moveTo(0,{1!s});
-      dc.lineTo(0,-{1!s});
-      dc.lineTo(-{2!s},-{1!s} + {2!s});
-      dc.moveTo(0,-{1!s});
-      dc.lineTo({2!s},-{1!s} + {2!s});
-      dc.stroke();
-      dc.restore();
-    }}
-    window.onload = function() {{
-    var canvas = document.getElementById("drawingCanvas");
-    var dc = canvas.getContext("2d");
-    dc.font = '10pt Helvetica';
-    dc.textAlign = 'center';
+    <!-- saved from url=(0014)about:internet -->
+    <meta charset="utf-8">
+    <title>{0}</title>
+    <script>
+        function arrow(dc,x,y,degrees) {{
+            dc.beginPath();
+            dc.save();
+            dc.translate(x,y);
+            dc.rotate(-Math.PI * 2 * degrees / 360.0);
+            dc.moveTo(0,{1!s});
+            dc.lineTo(0,-{1!s});
+            dc.lineTo(-{2!s},-{1!s} + {2!s});
+            dc.moveTo(0,-{1!s});
+            dc.lineTo({2!s},-{1!s} + {2!s});
+            dc.stroke();
+            dc.restore();
+        }}
+        window.onload = function() {{
+        var canvas = document.getElementById("drawingCanvas");
+        var dc = canvas.getContext("2d");
+        dc.font = '10pt Helvetica';
+        dc.textAlign = 'center';
 '''
-BODYTOP = '''}};
-  </script>
+BODYTOP = '''        }};
+    </script>
 </head>
 <body>
-  <h1>{} Alignment</h1>
-  <h2>Dynamic programming table</h2>
+    <style type="text/css" media="print">
+    .printbutton {{
+      visibility: hidden;
+      display: none;
+    }}
+    </style>
+    <h1>{} Alignment</h1>
+    <script>
+        document.write("<input type='button' " +
+        "onClick='window.print()' " +
+        "class='printbutton' " +
+        "value='Print'/>");
+    </script>
+    <h2>Dynamic programming table</h2>
 '''
 CANVAS = '  <canvas id="drawingCanvas" width="{0!s}" height="{1!s}"></canvas>'
 BODYBOTTOM = '''</body>
