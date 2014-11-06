@@ -86,23 +86,21 @@ def cell_diag(row, col):
 def draw_cell_grid(f, seq):
     f.write("dc.beginPath();")
     # Vertical cell lines:
-    (1..seq[0].size+2).each do |i|
-      f.write("dc.moveTo(#{i * $CELL},#{$CELL});")
-      f.write("dc.lineTo(#{i * $CELL},#{$ymax});")
-    end
+    for i in range(1, seq[0].size + 2):
+        f.write("dc.moveTo({0!s},{1!s});".format(i * CELL, CELL))
+        f.write("dc.lineTo({0!s},{1!s});".format(i * CELL, ymax))
     # Horizontal cell lines:
-    (1..seq[1].size+2).each do |i|
-      f.write("dc.moveTo(#{$CELL},#{i * $CELL});")
-      f.write("dc.lineTo(#{$CELL * (seq[0].size+2)},#{i * $CELL});")
-    end
+    for i in range(1, seq[1].size + 2):
+        f.write("dc.moveTo({0!s},{1!s});".format(CELL, i * CELL))
+        f.write("dc.lineTo({0!s},{1!s});".format(CELL * (seq[0].size+2), i * CELL))
     f.write("dc.stroke();")
     # Sequences:
-    seq[0].each_with_index do |e,i|
-      f.write("dc.fillText('#{e}',#{$CELL/2 + (2+i) * $CELL},#{$CELL * 2/3});")
-    end
-    seq[1].each_with_index do |e,i|
-      f.write("dc.fillText('#{e}',#{$CELL/2},#{$CELL * 2/3 + (i+2) * $CELL});")
-    end
+    for i in range(0, seq[0].length):
+        arg = (seq[0][i], CELL/2 + (2+i) * CELL, CELL * 2/3)
+        f.write("dc.fillText('{0}',{1!s},{2!s});".format(arg[0], arg[1], arg[2]))
+    for i in range(0, seq[1].length):
+        arg = (seq[1][i], CELL/2, CELL * 2/3 + (i+2) * CELL)
+        f.write("dc.fillText('{0}',{1!s},{2!s});".format(arg[0], arg[1], arg[2]))
 
 def cell_fill(f, row, col, score, backlink):
     links = backlink[row][col].split("")
