@@ -20,13 +20,14 @@
 # Last modified: 11/6/2014
 
 import argparse
+from copy import deepcopy
 import os.path
 import webbrowser
 
 from scoring_matrix import ScoringMatrix
-from scoring_algorithm import fill_matrix
-from terminal_output import print_matrix
-from html_output import draw_grid
+from scoring_algorithm import get_alignments
+from terminal_output import print_matrix, print_alignments
+from html_output import write_html
 
 version = "v0.0.0"
 desc = "sequence-aligner " + version
@@ -83,8 +84,8 @@ if len(sequence1) > len(sequence2):
 sm = ScoringMatrix(sequence1, sequence2)
 alignments = get_alignments(sm)
 print_matrix(sm)
-print_alignments(alignments)
-html_file = write_html(sm)
+print_alignments(deepcopy(alignments))
+html_file = write_html(sm, alignments)
 print "Output written to", html_file
 if raw_input("Open HTML output in your web browser (y/n)? ").lower() == 'y':
     webbrowser.get().open(html_file)
