@@ -70,3 +70,4 @@ def print_alignments(alignment_list):
         print "Alignment #", str(i)
         for s in seq:
             print s
+        i += 1
